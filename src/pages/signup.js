@@ -1,9 +1,148 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
+import axios from "axios";
 
-export default function signup() {
-    return (
-        <div>
-            This is Signup page
-        </div>
-    )
+import loginLogo from "../images/logo.png";
+
+// MUI stuff
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import TextField from "@material-ui/core/TextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const useStyles = makeStyles((theme) => ({
+  loginContainer: theme.loginContainer,
+  image: theme.image,
+  pageTitle: theme.pageTitle,
+  textField: theme.textField,
+}));
+
+export default function Login(props) {
+  const classes = useStyles();
+  const history = useHistory();
+
+  ///////// Hooooooooooooooooks /////////
+  // useState Hook //
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [handle, setHandle] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  ///////// Functions /////////
+  // Handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await axios.post("/signup", { email, password, handle, confirmPassword });
+      setLoading(false);
+      history.push("/");
+    } catch (error) {
+      setError(error.response?.data.errors);
+      setLoading(false);
+    }
+  };
+
+  // Handle input change
+  const handleChange = (e) => {
+    switch (e.target.name) {
+      case "email":
+        setEmail(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        break;
+      case "handle":
+        setHandle(e.target.value);
+        break;
+      case "confirmPassword":
+        setConfirmPassword(e.target.value);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <Card raised className={classes.loginContainer}>
+      <CardContent>
+        <img src={loginLogo} alt="Website logo" className={classes.image} />
+        <Typography variant="h3" color="primary" className={classes.pageTitle}>
+          Sign up
+        </Typography>
+        <form noValidate onSubmit={handleSubmit}>
+          <TextField
+            error={error?.match(/email/gi) ? true : false}
+            helperText={error?.match(/email/gi) ? error : ""}
+            fullWidth
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            value={email}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <TextField
+            error={error?.match(/password/gi) ? true : false}
+            helperText={error?.match(/password/gi) ? error : ""}
+            fullWidth
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            value={password}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <TextField
+            error={error?.match(/Both passwords/gi) ? true : false}
+            helperText={error?.match(/Both passwords/gi) ? error : ""}
+            fullWidth
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            label="Confirm Password"
+            value={confirmPassword}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <TextField
+            error={error?.match(/Username/gi) ? true : false}
+            helperText={error?.match(/Username/gi) ? error : ""}
+            fullWidth
+            id="handle"
+            name="handle"
+            type="handle"
+            label="Handle"
+            value={handle}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <Button
+            style={{ margin: "2rem auto" }}
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <CircularProgress size={20} color="secondary" />
+            ) : (
+              "Register"
+            )}
+          </Button>
+          <small style={{ display: "block", marginTop: "-1rem" }}>
+            Already a user! <Link to="/login">Login here</Link>
+          </small>
+        </form>
+      </CardContent>
+    </Card>
+  );
 }

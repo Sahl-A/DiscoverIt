@@ -21,6 +21,8 @@ import Navbar from "./components/Navbar";
 
 axios.defaults.baseURL = 'http://localhost:8080/api';
 
+
+
 function App() {
   return (
     <ThemeProvider theme={theme}>

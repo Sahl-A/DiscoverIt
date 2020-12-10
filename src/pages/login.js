@@ -13,11 +13,13 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const useStyles = makeStyles({
-  loginContainer: { maxWidth: 400, margin: "auto", textAlign: "center" },
-  image: { maxWidth: 100 },
-  pageTitle: { fontWeight: "lighter", margin: "1rem auto" },
-  textField: { marginBottom: "1rem" },
+const useStyles = makeStyles((theme) => {
+  return {
+    loginContainer: theme.loginContainer,
+    image: theme.image,
+    pageTitle: theme.pageTitle,
+    textField: theme.textField,
+  };
 });
 
 export default function Login(props) {
