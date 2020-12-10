@@ -65,55 +65,59 @@ export default function Login(props) {
   };
 
   return (
-    <Card raised className={classes.loginContainer}>
-      <CardContent>
-        <img src={loginLogo} alt="Website logo" className={classes.image} />
-        <Typography variant="h3" color="primary" className={classes.pageTitle}>
-          Login
-        </Typography>
-        <form noValidate onSubmit={handleSubmit}>
-          <TextField
-            error={error?.match(/email/g) ? true : false}
-            helperText={error?.match(/email/g) ? error : ""}
-            fullWidth
-            id="email"
-            name="email"
-            type="email"
-            label="Email"
-            value={email}
-            onChange={handleChange}
-            className={classes.textField}
-          />
-          <TextField
-            error={error?.match(/password/g) ? true : false}
-            helperText={error?.match(/password/g) ? error : ""}
-            fullWidth
-            id="password"
-            name="password"
-            type="password"
-            label="Password"
-            value={password}
-            onChange={handleChange}
-            className={classes.textField}
-          />
-          <Button
-            style={{ margin: "2rem auto" }}
-            type="submit"
-            variant="contained"
+      <Card raised className={classes.loginContainer}>
+        <CardContent>
+          <img src={loginLogo} alt="Website logo" className={classes.image} />
+          <Typography
+            variant="h3"
             color="primary"
-            disabled={loading}
+            className={classes.pageTitle}
           >
-            {loading ? (
-              <CircularProgress size={20} color="secondary" />
-            ) : (
-              "Login"
-            )}
-          </Button>
-          <small style={{ display: "block", marginTop: "-1rem" }}>
-            Don't have an account. <Link to="/signup">Sign up here</Link>
-          </small>
-        </form>
-      </CardContent>
-    </Card>
+            Login
+          </Typography>
+          <form noValidate onSubmit={handleSubmit}>
+            <TextField
+              error={error?.match(/email/g) ? true : false}
+              helperText={error?.match(/email/g) ? error : ""}
+              fullWidth
+              id="email"
+              name="email"
+              type="email"
+              label="Email"
+              value={email}
+              onChange={handleChange}
+              className={classes.textField}
+            />
+            <TextField
+              error={error?.match(/password/g) ? true : false}
+              helperText={error?.match(/password/g) ? error : ""}
+              fullWidth
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              value={password}
+              onChange={handleChange}
+              className={classes.textField}
+            />
+            <Button
+              style={{ margin: "2rem auto" }}
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={20} color="secondary" />
+              ) : (
+                "Login"
+              )}
+            </Button>
+            <small style={{ display: "block", marginTop: "-1rem" }}>
+              Don't have an account. <Link to="/signup">Sign up here</Link>
+            </small>
+          </form>
+        </CardContent>
+      </Card>
   );
 }

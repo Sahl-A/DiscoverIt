@@ -1,5 +1,6 @@
 import React from "react";
-import axios from 'axios'
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 import "./App.css";
 
 // Libraries
@@ -8,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // MUI
 import Container from "@material-ui/core/Container";
 import { ThemeProvider } from "@material-ui/core/styles";
-import theme from './theme';
+import theme from "./utils/theme";
 
 // Pages
 import Home from "./pages/Home";
@@ -18,21 +19,45 @@ import signup from "./pages/signup";
 // Components
 import Navbar from "./components/Navbar";
 
+// HOC
+import AuthRoute from "./utils/authRoute";
 
-axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = "http://localhost:8080/api";
 
-
+// Get the token from localStorage, decode it
+// compare it with time now to know its expiration
+let authenticated;
+const token = localStorage.DiscoverItToken;
+if (token) {
+  const decodedTokne = jwtDecode(token);
+  if (decodedTokne.exp * 1000 < Date.now()) {
+    window.location.href = "/login";
+    authenticated = false;
+  } else {
+    authenticated = true;
+  }
+}
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Navbar />
-        <Container style={{marginTop: '2rem'}} >
+        <Container style={{ marginTop: "2rem" }}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={signup} />
+            <AuthRoute
+              exact
+              path="/login"
+              component={Login}
+              authenticated={authenticated}
+            />
+            <AuthRoute
+              exact
+              path="/signup"
+              component={signup}
+              authenticated={authenticated}
+            />
           </Switch>
         </Container>
       </Router>
