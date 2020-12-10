@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios'
 import "./App.css";
 
 // Libraries
@@ -6,27 +7,34 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // MUI
 import Container from "@material-ui/core/Container";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from './theme';
 
 // Pages
-import home from "./pages/home";
+import Home from "./pages/Home";
 import login from "./pages/login";
 import signup from "./pages/signup";
 
 // Components
 import Navbar from "./components/Navbar";
 
+
+axios.defaults.baseURL = 'http://localhost:8080/api';
+
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Container maxWidth='md'>
-        <Switch>
-          <Route exact path="/" component={home} />
-          <Route exact path="/login" component={login} />
-          <Route exact path="/signup" component={signup} />
-        </Switch>
-      </Container>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Navbar />
+        <Container style={{marginTop: '2rem'}} >
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={login} />
+            <Route exact path="/signup" component={signup} />
+          </Switch>
+        </Container>
+      </Router>
+    </ThemeProvider>
   );
 }
 
