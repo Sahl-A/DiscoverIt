@@ -12,7 +12,7 @@ import theme from './theme';
 
 // Pages
 import Home from "./pages/Home";
-import login from "./pages/login";
+import Login from "./pages/Login";
 import signup from "./pages/signup";
 
 // Components
@@ -29,7 +29,7 @@ function App() {
         <Container style={{marginTop: '2rem'}} >
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={login} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={signup} />
           </Switch>
         </Container>

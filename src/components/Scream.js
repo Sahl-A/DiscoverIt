@@ -5,8 +5,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 // MUI
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -25,13 +23,13 @@ export default function Scream(props) {
   const classes = useStyles();
   const {
     scream: {
-      _id,
+      // _id,
       body,
       userImage,
       createdAt,
       userHandle,
-      commentCount,
-      likeCount,
+      // commentCount,
+      // likeCount,
     },
   } = props;
   return (
@@ -44,7 +42,7 @@ export default function Scream(props) {
       <CardContent className={classes.content}>
         <Typography
           component={Link}
-          to={`/users/${userHandle}`}
+          to={`/users/${userHandle.replace(/ /g, "-")}`}
           gutterBottom
           variant="h5"
         >

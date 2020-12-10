@@ -14,9 +14,8 @@ import Grid from "@material-ui/core/Grid";
 }); */
 
 export default function Home() {
-//   const classes = useStyles;
+//   const classes = useStyles();
   ////////// Hoooooooooooooks //////////////
-
   ///////// useState
   const [screams, setScreams] = useState(null);
 
