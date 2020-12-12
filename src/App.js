@@ -11,6 +11,10 @@ import Container from "@material-ui/core/Container";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./utils/theme";
 
+// Redux
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 // Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -27,7 +31,7 @@ axios.defaults.baseURL = "http://localhost:8080/api";
 // Get the token from localStorage, decode it
 // compare it with time now to know its expiration
 let authenticated;
-const token = localStorage.DiscoverItToken;
+const token = localStorage.DiscoverItToken.split(' ')[1];
 if (token) {
   const decodedTokne = jwtDecode(token);
   if (decodedTokne.exp * 1000 < Date.now()) {
@@ -40,28 +44,30 @@ if (token) {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Navbar />
-        <Container style={{ marginTop: "2rem" }}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <AuthRoute
-              exact
-              path="/login"
-              component={Login}
-              authenticated={authenticated}
-            />
-            <AuthRoute
-              exact
-              path="/signup"
-              component={signup}
-              authenticated={authenticated}
-            />
-          </Switch>
-        </Container>
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Navbar />
+          <Container style={{ marginTop: "2rem" }}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <AuthRoute
+                exact
+                path="/login"
+                component={Login}
+                authenticated={authenticated}
+              />
+              <AuthRoute
+                exact
+                path="/signup"
+                component={signup}
+                authenticated={authenticated}
+              />
+            </Switch>
+          </Container>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

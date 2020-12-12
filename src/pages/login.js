@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import axios from "axios";
 
 import loginLogo from "../images/logo.png";
 
@@ -13,6 +12,10 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+// Redux stuff
+import { connect } from "react-redux";
+import { loginUser } from "../redux/actions/userActions";
+
 const useStyles = makeStyles((theme) => {
   return {
     loginContainer: theme.loginContainer,
@@ -22,31 +25,39 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export default function Login(props) {
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    UI: state.UI,
+  };
+};
+
+const mapDispatchToProps = {
+  loginUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function Login(props) {
   const classes = useStyles();
   const history = useHistory();
+
+  let { UI : {loading, errors}, loginUser } = props;
+
+  // Handle the way errors are inside object
+  if(errors) errors = errors.errors
 
   ///////// Hooooooooooooooooks /////////
   // useState Hook //
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   ///////// Functions /////////
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const login = await axios.post("/login", { email, password });
-      localStorage.setItem("DiscoverItToken", login.data.token);
-      setLoading(false);
-      history.push("/");
-    } catch (error) {
-      setError(error.response?.data.errors);
-      setLoading(false);
-    }
+    loginUser({ email, password }, history);
   };
 
   // Handle input change
@@ -65,59 +76,55 @@ export default function Login(props) {
   };
 
   return (
-      <Card raised className={classes.loginContainer}>
-        <CardContent>
-          <img src={loginLogo} alt="Website logo" className={classes.image} />
-          <Typography
-            variant="h3"
+    <Card raised className={classes.loginContainer}>
+      <CardContent>
+        <img src={loginLogo} alt="Website logo" className={classes.image} />
+        <Typography variant="h3" color="primary" className={classes.pageTitle}>
+          Login
+        </Typography>
+        <form noValidate onSubmit={handleSubmit}>
+          <TextField
+            error={errors?.match(/email/g) ? true : false}
+            helperText={errors?.match(/email/g) ? errors : ""}
+            fullWidth
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            value={email}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <TextField
+            error={errors?.match(/password/g) ? true : false}
+            helperText={errors?.match(/password/g) ? errors : ""}
+            fullWidth
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            value={password}
+            onChange={handleChange}
+            className={classes.textField}
+          />
+          <Button
+            style={{ margin: "2rem auto" }}
+            type="submit"
+            variant="contained"
             color="primary"
-            className={classes.pageTitle}
+            disabled={loading}
           >
-            Login
-          </Typography>
-          <form noValidate onSubmit={handleSubmit}>
-            <TextField
-              error={error?.match(/email/g) ? true : false}
-              helperText={error?.match(/email/g) ? error : ""}
-              fullWidth
-              id="email"
-              name="email"
-              type="email"
-              label="Email"
-              value={email}
-              onChange={handleChange}
-              className={classes.textField}
-            />
-            <TextField
-              error={error?.match(/password/g) ? true : false}
-              helperText={error?.match(/password/g) ? error : ""}
-              fullWidth
-              id="password"
-              name="password"
-              type="password"
-              label="Password"
-              value={password}
-              onChange={handleChange}
-              className={classes.textField}
-            />
-            <Button
-              style={{ margin: "2rem auto" }}
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={loading}
-            >
-              {loading ? (
-                <CircularProgress size={20} color="secondary" />
-              ) : (
-                "Login"
-              )}
-            </Button>
-            <small style={{ display: "block", marginTop: "-1rem" }}>
-              Don't have an account. <Link to="/signup">Sign up here</Link>
-            </small>
-          </form>
-        </CardContent>
-      </Card>
+            {loading ? (
+              <CircularProgress size={20} color="secondary" />
+            ) : (
+              "Login"
+            )}
+          </Button>
+          <small style={{ display: "block", marginTop: "-1rem" }}>
+            Don't have an account. <Link to="/signup">Sign up here</Link>
+          </small>
+        </form>
+      </CardContent>
+    </Card>
   );
-}
+});
