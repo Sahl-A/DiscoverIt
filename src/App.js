@@ -1,10 +1,10 @@
 import React from "react";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
 import "./App.css";
 
 // Libraries
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 // MUI
 import Container from "@material-ui/core/Container";
@@ -14,6 +14,8 @@ import theme from "./utils/theme";
 // Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { logoutUser, getUserData } from "./redux/actions/userActions";
+import { SET_UNAUTHENTICATED, SET_AUTHENTICATED } from "./redux/types";
 
 // Pages
 import Home from "./pages/Home";
@@ -30,15 +32,17 @@ axios.defaults.baseURL = "http://localhost:8080/api";
 
 // Get the token from localStorage, decode it
 // compare it with time now to know its expiration
-let authenticated;
-const token = localStorage.DiscoverItToken.split(' ')[1];
+const token = localStorage.DiscoverItToken?.split(" ")[1];
 if (token) {
-  const decodedTokne = jwtDecode(token);
-  if (decodedTokne.exp * 1000 < Date.now()) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
     window.location.href = "/login";
-    authenticated = false;
+    store.dispatch({ type: SET_UNAUTHENTICATED });
+    store.dispatch(logoutUser());
   } else {
-    authenticated = true;
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getUserData());
   }
 }
 
@@ -51,18 +55,8 @@ function App() {
           <Container style={{ marginTop: "2rem" }}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <AuthRoute
-                exact
-                path="/login"
-                component={Login}
-                authenticated={authenticated}
-              />
-              <AuthRoute
-                exact
-                path="/signup"
-                component={signup}
-                authenticated={authenticated}
-              />
+              <AuthRoute exact path="/login" component={Login} />
+              <AuthRoute exact path="/signup" component={signup} />
             </Switch>
           </Container>
         </Router>

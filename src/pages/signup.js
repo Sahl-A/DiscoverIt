@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import axios from "axios";
 
 import loginLogo from "../images/logo.png";
 
@@ -13,6 +12,10 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+// Redux stuff
+import { connect } from "react-redux";
+import { signup } from "../redux/actions/userActions";
+
 const useStyles = makeStyles((theme) => ({
   loginContainer: theme.loginContainer,
   image: theme.image,
@@ -20,9 +23,31 @@ const useStyles = makeStyles((theme) => ({
   textField: theme.textField,
 }));
 
-export default function Login(props) {
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    UI: state.UI,
+  };
+};
+
+const mapDispatchToProps = {
+  signup,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function Signup(props) {
   const classes = useStyles();
   const history = useHistory();
+
+  let {
+    UI: { loading, errors },
+    signup,
+  } = props;
+
+  // Handle the way errors are inside object
+  if (errors) errors = errors.errors;
 
   ///////// Hooooooooooooooooks /////////
   // useState Hook //
@@ -30,22 +55,13 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [handle, setHandle] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   ///////// Functions /////////
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      await axios.post("/signup", { email, password, handle, confirmPassword });
-      setLoading(false);
-      history.push("/");
-    } catch (error) {
-      setError(error.response?.data.errors);
-      setLoading(false);
-    }
+    console.log("[signup] before invoking the signup fn");
+    signup({ email, password, confirmPassword, handle }, history);
   };
 
   // Handle input change
@@ -78,8 +94,8 @@ export default function Login(props) {
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
           <TextField
-            error={error?.match(/email/gi) ? true : false}
-            helperText={error?.match(/email/gi) ? error : ""}
+            error={errors?.match(/email/gi) ? true : false}
+            helperText={errors?.match(/email/gi) ? errors : ""}
             fullWidth
             id="email"
             name="email"
@@ -90,8 +106,8 @@ export default function Login(props) {
             className={classes.textField}
           />
           <TextField
-            error={error?.match(/password/gi) ? true : false}
-            helperText={error?.match(/password/gi) ? error : ""}
+            error={errors?.match(/password/gi) ? true : false}
+            helperText={errors?.match(/password/gi) ? errors : ""}
             fullWidth
             id="password"
             name="password"
@@ -102,8 +118,8 @@ export default function Login(props) {
             className={classes.textField}
           />
           <TextField
-            error={error?.match(/Both passwords/gi) ? true : false}
-            helperText={error?.match(/Both passwords/gi) ? error : ""}
+            error={errors?.match(/Both passwords/gi) ? true : false}
+            helperText={errors?.match(/Both passwords/gi) ? errors : ""}
             fullWidth
             id="confirmPassword"
             name="confirmPassword"
@@ -114,8 +130,8 @@ export default function Login(props) {
             className={classes.textField}
           />
           <TextField
-            error={error?.match(/Username/gi) ? true : false}
-            helperText={error?.match(/Username/gi) ? error : ""}
+            error={errors?.match(/Username/gi) ? true : false}
+            helperText={errors?.match(/Username/gi) ? errors : ""}
             fullWidth
             id="handle"
             name="handle"
@@ -145,4 +161,4 @@ export default function Login(props) {
       </CardContent>
     </Card>
   );
-}
+});

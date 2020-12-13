@@ -43,10 +43,13 @@ export default connect(
   const classes = useStyles();
   const history = useHistory();
 
-  let { UI : {loading, errors}, loginUser } = props;
+  let {
+    UI: { loading, errors },
+    loginUser,
+  } = props;
 
   // Handle the way errors are inside object
-  if(errors) errors = errors.errors
+  if (errors) errors = errors.errors;
 
   ///////// Hooooooooooooooooks /////////
   // useState Hook //
