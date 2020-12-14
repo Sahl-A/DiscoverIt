@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import dayJs from "dayjs";
 
 // MUI stuff
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -143,42 +144,59 @@ export default connect(
             />
             <Tooltip title="Edit Profile Picture" placement="top">
               <IconButton onClick={handleEditPicture} className="button">
-                <EditIcon color='primary'/>
+                <EditIcon color="primary" />
               </IconButton>
             </Tooltip>
           </div>
           <hr />
-          <div className="profile-details">
-            <MuiLink
-              component={Link}
-              to={`/users/${handle}`}
-              color="primary"
-              variant="h5"
-            >
-              @{handle}
-            </MuiLink>
-            {bio && <Typography variant="body2">{bio}</Typography>}
-            <hr />
-            {location && (
-              <>
-                <LocationOn color="primary" />
-                <span>{location}</span>
-                <hr />
-              </>
-            )}
-            {website && (
-              <>
-                <LinkIcon color="primary" />
-                <a href={website} target="_blank" rel="noopener noreferrer">
-                  {" "}
-                  {website}
-                </a>
-                <hr />
-              </>
-            )}
-            <CalendarToday color="primary" />{" "}
-            <span>Joined {dayJs(createdAt).format("MMM YYYY")}</span>
-          </div>
+          <Grid
+            container
+            direction="column"
+            justify="flex-start"
+            className="profile-details"
+          >
+            <Grid item>
+              <MuiLink
+                style={{textAlign: "center"}}
+                component={Link}
+                to={`/users/${handle}`}
+                color="primary"
+                variant="h5"
+              >
+                @{handle}
+              </MuiLink>
+              <hr />
+            </Grid>
+            <Grid item>
+              {bio && <Typography variant="body2" align='center'>{bio}</Typography>}
+              <hr />
+            </Grid>
+            <Grid item>
+              {location && (
+                <>
+                  <LocationOn color="primary" />
+                  <span>{location}</span>
+                </>
+              )}
+              <hr />
+            </Grid>
+            <Grid item>
+              {website && (
+                <>
+                  <LinkIcon color="primary" />
+                  <a href={website} target="_blank" rel="noopener noreferrer">
+                    {" "}
+                    {website}
+                  </a>
+                </>
+              )}
+              <hr />
+            </Grid>
+            <Grid item>
+              <CalendarToday color="primary" />{" "}
+              <span>Joined {dayJs(createdAt).format("MMM YYYY")}</span>
+            </Grid>
+          </Grid>
           <Tooltip title="Logout" placement="top">
             <IconButton onClick={handleLogout}>
               <KeyboardReturn color="primary" />
