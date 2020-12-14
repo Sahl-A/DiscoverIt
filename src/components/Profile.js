@@ -7,13 +7,17 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import MuiLink from "@material-ui/core/Link";
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
+import EditIcon from "@material-ui/icons/Edit";
 
 // Redux stuff
 import { connect } from "react-redux";
+import {uploadProfilePic, logoutUser} from '../redux/actions/userActions'
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -71,7 +75,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(function Login(props) {
+const mapActionsToProps = {
+    uploadProfilePic,
+    logoutUser
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(function Login(props) {
   const classes = useStyles();
 
   let {
@@ -80,11 +89,29 @@ export default connect(mapStateToProps)(function Login(props) {
       authenticated,
       credentials: { handle, imageUrl, createdAt, bio, website, location },
     },
+    uploadProfilePic,
+    logoutUser
   } = props;
 
   ///////// Hooooooooooooooooks /////////
 
   ///////// Functions /////////
+  // When changing the image using the input tag
+  const handleImageChange = (e) => {
+    // Get The image and prepare it in <form> format using formData
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image)
+
+    // Upload the profile pic   
+    uploadProfilePic(formData)
+  };
+
+  // When clicking on the edit button to open the above fn
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
 
   ///////// Markup /////////
   const profileMarkup = !loading ? (
@@ -98,6 +125,17 @@ export default connect(mapStateToProps)(function Login(props) {
               alt="profile"
               className="profile-image"
             />
+            <input
+              type="file"
+              id="imageInput"
+              hidden="hidden"
+              onChange={handleImageChange}
+            />
+            <Tooltip title="Edit Profile Picture" placement="top">
+              <IconButton onClick={handleEditPicture} className="button">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </div>
           <hr />
           <div className="profile-details">

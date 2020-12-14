@@ -76,10 +76,23 @@ export const logoutUser = (history) => {
 // Get User Data once the user is logged
 export const getUserData = () => {
   return async (dispatch) => {
-    dispatch({type: LOADING_USER})
+    dispatch({ type: LOADING_USER });
     try {
       const user = await axios.get("/user");
       dispatch({ type: SET_USER, payload: user.data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+// Upload the profile pic
+export const uploadProfilePic = (profilePic) => {
+  return async (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    try {
+      await axios.post("/user/image", profilePic);
+      dispatch(getUserData());
     } catch (err) {
       console.error(err);
     }
