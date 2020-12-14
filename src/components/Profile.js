@@ -14,10 +14,11 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 // Redux stuff
 import { connect } from "react-redux";
-import {uploadProfilePic, logoutUser} from '../redux/actions/userActions'
+import { uploadProfilePic, logoutUser } from "../redux/actions/userActions";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -76,11 +77,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-    uploadProfilePic,
-    logoutUser
-}
+  uploadProfilePic,
+  logoutUser,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(function Login(props) {
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(function Login(props) {
   const classes = useStyles();
 
   let {
@@ -90,7 +94,7 @@ export default connect(mapStateToProps, mapActionsToProps)(function Login(props)
       credentials: { handle, imageUrl, createdAt, bio, website, location },
     },
     uploadProfilePic,
-    logoutUser
+    logoutUser,
   } = props;
 
   ///////// Hooooooooooooooooks /////////
@@ -101,16 +105,21 @@ export default connect(mapStateToProps, mapActionsToProps)(function Login(props)
     // Get The image and prepare it in <form> format using formData
     const image = e.target.files[0];
     const formData = new FormData();
-    formData.append('image', image)
+    formData.append("image", image);
 
-    // Upload the profile pic   
-    uploadProfilePic(formData)
+    // Upload the profile pic
+    uploadProfilePic(formData);
   };
 
   // When clicking on the edit button to open the above fn
   const handleEditPicture = () => {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
+  };
+
+  // Logout
+  const handleLogout = () => {
+    logoutUser();
   };
 
   ///////// Markup /////////
@@ -169,6 +178,11 @@ export default connect(mapStateToProps, mapActionsToProps)(function Login(props)
             <CalendarToday color="primary" />{" "}
             <span>Joined {dayJs(createdAt).format("MMM YYYY")}</span>
           </div>
+          <Tooltip title="Logout" placement="top">
+            <IconButton onClick={handleLogout}>
+              <KeyboardReturn color="primary" />
+            </IconButton>
+          </Tooltip>
         </div>
       </Paper>
     ) : (
