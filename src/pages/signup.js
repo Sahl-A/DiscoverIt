@@ -17,10 +17,7 @@ import { connect } from "react-redux";
 import { signup } from "../redux/actions/userActions";
 
 const useStyles = makeStyles((theme) => ({
-  loginContainer: theme.loginContainer,
-  image: theme.image,
-  pageTitle: theme.pageTitle,
-  textField: theme.textField,
+  ...theme.spreadIt
 }));
 
 const mapStateToProps = (state) => {

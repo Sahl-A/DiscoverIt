@@ -1,4 +1,9 @@
-import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER } from "../types";
+import {
+  SET_USER,
+  SET_AUTHENTICATED,
+  SET_UNAUTHENTICATED,
+  LOADING_USER,
+} from "../types";
 
 const initialState = {
   authenticated: false,
@@ -26,11 +31,11 @@ const reducer = (state = initialState, action) => {
         ...action.payload,
       };
 
-    case LOADING_USER: 
+    case LOADING_USER:
       return {
-          ...state,
-          loading: true
-      }
+        ...state,
+        loading: true,
+      };
 
     default:
       return state;

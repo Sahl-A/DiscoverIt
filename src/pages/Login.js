@@ -18,10 +18,7 @@ import { loginUser } from "../redux/actions/userActions";
 
 const useStyles = makeStyles((theme) => {
   return {
-    loginContainer: theme.loginContainer,
-    image: theme.image,
-    pageTitle: theme.pageTitle,
-    textField: theme.textField,
+    ...theme.spreadIt
   };
 });
 

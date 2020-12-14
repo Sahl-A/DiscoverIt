@@ -15,8 +15,10 @@ export default createMuiTheme({
       contrastText: "#000",
     },
   },
-  loginContainer: { maxWidth: 400, margin: "auto", textAlign: "center" },
-  image: { maxWidth: 100 },
-  pageTitle: { fontWeight: "lighter", margin: "1rem auto" },
-  textField: { marginBottom: "1rem" },
+  spreadIt: {
+    loginContainer: { maxWidth: 400, margin: "auto", textAlign: "center" },
+    image: { maxWidth: 100 },
+    pageTitle: { fontWeight: "lighter", margin: "1rem auto" },
+    textField: { marginBottom: "1rem" },
+  },
 });

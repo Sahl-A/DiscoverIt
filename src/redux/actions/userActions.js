@@ -98,3 +98,16 @@ export const uploadProfilePic = (profilePic) => {
     }
   };
 };
+
+// Edit user details
+export const editUserDetails = (userDetails) => {
+  return async (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    try {
+      await axios.post("/user", userDetails);
+      await dispatch(getUserData());
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};

@@ -19,6 +19,7 @@ import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 // Redux stuff
 import { connect } from "react-redux";
 import { uploadProfilePic, logoutUser } from "../redux/actions/userActions";
+import EditDetails from "./EditDetails";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -142,7 +143,7 @@ export default connect(
             />
             <Tooltip title="Edit Profile Picture" placement="top">
               <IconButton onClick={handleEditPicture} className="button">
-                <EditIcon />
+                <EditIcon color='primary'/>
               </IconButton>
             </Tooltip>
           </div>
@@ -183,6 +184,7 @@ export default connect(
               <KeyboardReturn color="primary" />
             </IconButton>
           </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
