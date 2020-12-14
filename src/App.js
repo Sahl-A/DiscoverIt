@@ -41,7 +41,7 @@ if (token) {
     store.dispatch(logoutUser());
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common["Authorization"] = token;
+    axios.defaults.headers.common["Authorization"] = localStorage.DiscoverItToken;
     store.dispatch(getUserData());
   }
 }

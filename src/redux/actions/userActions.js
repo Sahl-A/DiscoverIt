@@ -4,6 +4,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_UNAUTHENTICATED,
+  LOADING_USER,
 } from "../types";
 import axios from "axios";
 
@@ -18,12 +19,12 @@ export const loginUser = (userData, history) => {
       const login = await axios.post("/login", userData);
       const token = `Bearer ${login.data.token}`;
       localStorage.setItem("DiscoverItToken", token);
+      // Save the token in axios defaults to use it later
+      axios.defaults.headers.common["Authorization"] = token;
       // Get the user data when he is logged
       await dispatch(getUserData());
       // Clear errors
       dispatch({ type: CLEAR_ERRORS });
-      // Save the token in axios defaults to use it later
-      axios.defaults.headers.common["Authorization"] = token;
       // Redirect to homepage
       history.push("/");
     } catch (err) {
@@ -40,14 +41,10 @@ export const signup = (userData, history) => {
   return async (dispatch) => {
     // Set the loading to true
     dispatch({ type: LOADING_UI });
-    console.log("[userAction] after dispatch LOADING_UI");
-
     try {
-      console.log("[userAction] before send /signup");
       // Send the credentials & get the token then store it in localStorage
-      const login = await axios.post("/signup", userData);
-      console.log("[userAction] after dispatch send /signup");
-      const token = `Bearer ${login.data.token}`;
+      const signup = await axios.post("/signup", userData);
+      const token = `Bearer ${signup.data.token}`;
       localStorage.setItem("DiscoverItToken", token);
       // Save the token in axios defaults to use it later
       axios.defaults.headers.common["Authorization"] = token;
@@ -79,11 +76,12 @@ export const logoutUser = (history) => {
 // Get User Data once the user is logged
 export const getUserData = () => {
   return async (dispatch) => {
+    dispatch({type: LOADING_USER})
     try {
       const user = await axios.get("/user");
       dispatch({ type: SET_USER, payload: user.data });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
