@@ -3,6 +3,8 @@ import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   LOADING_USER,
+  LIKE_POST,
+  UNLIKE_POST,
 } from "../types";
 
 const initialState = {
@@ -35,6 +37,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+
+    case LIKE_POST:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userHandle: state.credentials.handle,
+            screamId: action.payload._id,
+          },
+        ],
+      };
+
+    case UNLIKE_POST:
+      return {
+        ...state,
+        likes: state.likes.filter(
+          (like) => like.screamId !== action.payload._id
+        ),
       };
 
     default:

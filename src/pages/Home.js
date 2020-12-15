@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import axios from "axios";
-
-import Scream from "../components/Scream";
+import Post from "../components/Post";
 import Profile from '../components/Profile'
 
 //MUI
 import Grid from "@material-ui/core/Grid";
-// import { makeStyles } from "@material-ui/core/styles";
 
+// Redux
+import { connect } from 'react-redux';
+import {getAllPosts} from '../redux/actions/dataActions'
 
-/* const useStyles = makeStyles({
-  card: {},
-}); */
+const mapStateToProps = (state) => ({
+  posts: state.data.posts
+})
 
-export default function Home() {
-//   const classes = useStyles();
+const mapDispatchToProps = {
+  getAllPosts
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(function Home(props) {
+  const {posts, getAllPosts} = props
   ////////// Hoooooooooooooks //////////////
-  ///////// useState
-  const [screams, setScreams] = useState(null);
 
   ///////// useEffect
   useEffect(() => {
     (async () => {
-      const fetchedData = await axios.get("/screams");
-      const data = fetchedData.data.screams;
-      setScreams(data);
+      getAllPosts()
     })();
-  }, [screams]);
+  }, [getAllPosts]);
 
   ///////// Rendered Variables
-  const screamsMarkup = screams ? (
-    screams.map((scream) => <Scream key={scream._id} scream={scream} />)
+  const postsMarkup = posts[0] ? (
+    posts.map((post) => <Post key={post._id} post={post} />)
   ) : (
     <p>Loading.....</p>
   );
@@ -39,11 +39,11 @@ export default function Home() {
   return (
     <Grid container spacing={8}>
       <Grid item sm={8} xs={12}>
-        {screamsMarkup}
+        {postsMarkup}
       </Grid>
       <Grid item sm={4} xs={12}>
         <Profile/>
       </Grid>
     </Grid>
   );
-}
+})
