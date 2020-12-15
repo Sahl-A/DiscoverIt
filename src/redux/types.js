@@ -9,6 +9,8 @@ export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const SET_POST = "SET_POST";
+export const DELETE_POST = "DELETE_POST";
+
 
 // ui types
 export const SET_ERRORS = "SET_ERRORS";

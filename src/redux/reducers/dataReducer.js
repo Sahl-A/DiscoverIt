@@ -3,6 +3,7 @@ import {
   LOADING_DATA,
   LIKE_POST,
   UNLIKE_POST,
+  DELETE_POST,
 } from "../types";
 
 const initialState = {
@@ -25,7 +26,6 @@ const reducer = (state = initialState, action) => {
         loading: false,
         posts: action.payload,
       };
-
     case LIKE_POST:
     case UNLIKE_POST:
       const index = state.posts.findIndex(
@@ -35,7 +35,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
-
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
     default:
       return state;
   }

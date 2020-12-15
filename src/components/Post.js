@@ -18,8 +18,11 @@ import StarEmptyIcon from "@material-ui/icons/StarOutline";
 import { connect } from "react-redux";
 import { likeUnlike } from "../redux/actions/dataActions";
 
+// Components
+import DeletePost from "./DeletePost";
+
 const useStyles = makeStyles({
-  card: { display: "flex", marginBottom: "1rem" },
+  card: { display: "flex", marginBottom: "1rem", position: "relative" },
   content: { padding: 20 },
   image: { minWidth: 200 },
 });
@@ -65,9 +68,9 @@ export default connect(
   const [likesArrUI, setLikesArrUI] = useState([]);
 
   /////// useEffect
-  useEffect(()=> {
-    setLikesArrUI(likes)
-  }, [likes])
+  useEffect(() => {
+    setLikesArrUI(likes);
+  }, [likes]);
 
   /////// Functions ///////
   /////////////////////
@@ -129,6 +132,7 @@ export default connect(
         title="Human face"
       />
       <CardContent className={classes.content}>
+        {credentials.handle === userHandle ? <DeletePost postId={_id} /> : null}
         <Typography
           component={Link}
           to={`/users/${userHandle.replace(/ /g, "-")}`}
