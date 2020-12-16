@@ -4,6 +4,10 @@ import {
   UNLIKE_POST,
   LOADING_DATA,
   DELETE_POST,
+  SET_POST,
+  LOADING_UI,
+  CLEAR_ERRORS,
+  SET_ERRORS,
 } from "../types";
 import axios from "axios";
 
@@ -43,6 +47,21 @@ export const deletePost = (postId) => {
       dispatch({ type: DELETE_POST, payload: postId });
       await axios.delete(`/scream/${postId}`);
     } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+// When Posting a post
+export const postPost = (post) => {
+  return async (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    try {
+      const postRawData = await axios.post("/scream", post);
+      dispatch({ type: SET_POST, payload: postRawData.data.data});
+      dispatch({ type: CLEAR_ERRORS });
+    } catch (err) {
+      dispatch({ type: SET_ERRORS });
       console.error(err);
     }
   };

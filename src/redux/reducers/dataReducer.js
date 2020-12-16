@@ -4,12 +4,11 @@ import {
   LIKE_POST,
   UNLIKE_POST,
   DELETE_POST,
+  SET_POST,
 } from "../types";
 
 const initialState = {
   posts: [],
-  post: {},
-  likes: [],
   loading: false,
 };
 
@@ -39,6 +38,20 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== action.payload),
+      };
+    case SET_POST:
+      return {
+        ...state,
+        posts: [
+          {
+            body: action.payload.body,
+            userHandle: action.payload.userHandle,
+            userImage: action.payload.userImage,
+            commnetCount: action.payload.commnetCount,
+            likeCount: action.payload.likeCount,
+          },
+          ...state.posts,
+        ],
       };
     default:
       return state;

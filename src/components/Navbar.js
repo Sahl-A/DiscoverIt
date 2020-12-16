@@ -9,10 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";
-import AddIcon from "@material-ui/icons/Add";
 import Notifications from "@material-ui/icons/Notifications";
 // Redux
 import { connect } from "react-redux";
+// Components
+import PostPost from "./PostPost";
 
 const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
@@ -26,11 +27,7 @@ export default connect(mapStateToProps)(function Navbar(props) {
         <Toolbar>
           {authenticated ? (
             <>
-              <Tooltip title="Write a post" placement="top">
-                <IconButton>
-                  <AddIcon style={{ color: "white" }} />
-                </IconButton>
-              </Tooltip>
+              <PostPost />
               <Link to="/">
                 <Tooltip title="Home" placement="top">
                   <IconButton>
