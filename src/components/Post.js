@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -11,15 +11,14 @@ import CardContent from "@material-ui/core/CardContent";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import ChatIcon from "@material-ui/icons/Chat";
-import StarIcon from "@material-ui/icons/Star";
-import StarEmptyIcon from "@material-ui/icons/StarOutline";
 
 // Redux
 import { connect } from "react-redux";
-import { likeUnlike } from "../redux/actions/dataActions";
 
 // Components
 import DeletePost from "./DeletePost";
+import PostDialog from "./PostDialog";
+import LikeButton from "./LikeButton";
 
 const useStyles = makeStyles({
   card: { display: "flex", marginBottom: "1rem", position: "relative" },
@@ -35,14 +34,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapDispatchToProps = {
-  likeUnlike,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function Post(props) {
+export default connect(mapStateToProps)(function Post(props) {
   const classes = useStyles();
   const {
     post: {
@@ -51,79 +43,22 @@ export default connect(
       userImage,
       createdAt,
       userHandle,
-      commentCount,
       likeCount,
+      commentCount,
     },
-    user: { authenticated, likes, credentials },
-    likeUnlike,
+    user: { credentials },
   } = props;
 
   /////// STATE ///////
   /////////////////////
   /////// useState
-  // The below state to change the likes count immedietly in the UI.
-  // In background, we send our http request to modify the DB
-  const [likesCountUI, setLikesCountUI] = useState(likeCount);
-  // Same for the likes array fetched from state above
-  const [likesArrUI, setLikesArrUI] = useState([]);
-
-  /////// useEffect
-  useEffect(() => {
-    setLikesArrUI(likes);
-  }, [likes]);
 
   /////// Functions ///////
   /////////////////////
-  // Check if the post is liked by comparing the scream id with the one in the likes array fetched when user is logged
-  const isPostLiked =
-    likesArrUI.length && likesArrUI.find((item) => item.screamId === _id);
-  // When the user likes a post
-  const likePost = () => {
-    setLikesCountUI(likesCountUI + 1);
-    setLikesArrUI([
-      ...likesArrUI,
-      {
-        userHandle: credentials.userHandle,
-        screamId: _id,
-      },
-    ]);
-    likeUnlike(_id, "like");
-  };
-  // When the user unlikes a post
-  const unLikePost = () => {
-    setLikesCountUI(likesCountUI - 1);
-    setLikesArrUI(likesArrUI.filter((like) => like.screamId !== _id));
-    likeUnlike(_id, "unlike");
-  };
 
   /////// Markup ///////
   /////////////////////
-  const likeButton = !authenticated ? (
-    // When not Authenticated
-    <Tooltip title="Like" placement="bottom">
-      <IconButton>
-        <Link to="/login">
-          <StarEmptyIcon color="primary" />
-        </Link>
-      </IconButton>
-    </Tooltip>
-  ) : // When Authenticated
-  // Check if the post is liked by the current user
-  isPostLiked ? (
-    // Post is Liked by the current user
-    <Tooltip title="Unlike" placement="bottom" onClick={unLikePost}>
-      <IconButton>
-        <StarIcon color="primary" />
-      </IconButton>
-    </Tooltip>
-  ) : (
-    // Post is not Liked by the current user
-    <Tooltip title="Like" placement="bottom" onClick={likePost}>
-      <IconButton>
-        <StarEmptyIcon color="primary" />
-      </IconButton>
-    </Tooltip>
-  );
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -145,14 +80,14 @@ export default connect(
           {dayjs(createdAt).fromNow()}
         </Typography>
         <Typography variant="body1">{body}</Typography>
-        {likeButton}
-        <span>{likesCountUI} Likes</span>
+        <LikeButton postId={_id} likeCount={likeCount} />
         <Tooltip title="comments" placement="bottom">
           <IconButton>
             <ChatIcon color="primary" />
           </IconButton>
         </Tooltip>
         <span>{commentCount} Comments</span>
+        <PostDialog postId={_id} />
       </CardContent>
     </Card>
   );

@@ -4,11 +4,13 @@ import {
   LIKE_POST,
   UNLIKE_POST,
   DELETE_POST,
-  SET_POST,
+  POST_POST,
+  GET_ONE_POST,
 } from "../types";
 
 const initialState = {
   posts: [],
+  post: {},
   loading: false,
 };
 
@@ -30,16 +32,26 @@ const reducer = (state = initialState, action) => {
       const index = state.posts.findIndex(
         (item) => item._id === action.payload._id
       );
-      state.posts[index] = action.payload;
+      const newPosts = [...state.posts];
+      newPosts[index] = action.payload;
+      // Change the likeCount in post if we opened it
+      if (state.post?._id === action.payload._id) {
+        return {
+          ...state,
+          posts: [...newPosts],
+          post: action.payload,
+        };
+      }
       return {
         ...state,
+        posts: [...newPosts],
       };
     case DELETE_POST:
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== action.payload),
       };
-    case SET_POST:
+    case POST_POST:
       return {
         ...state,
         posts: [
@@ -52,6 +64,11 @@ const reducer = (state = initialState, action) => {
           },
           ...state.posts,
         ],
+      };
+    case GET_ONE_POST:
+      return {
+        ...state,
+        post: action.payload,
       };
     default:
       return state;

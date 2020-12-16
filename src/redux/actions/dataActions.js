@@ -1,13 +1,15 @@
 import {
   GET_ALL_POSTS,
+  GET_ONE_POST,
   LIKE_POST,
   UNLIKE_POST,
   LOADING_DATA,
   DELETE_POST,
-  SET_POST,
+  POST_POST,
   LOADING_UI,
   CLEAR_ERRORS,
   SET_ERRORS,
+  STOP_LOADING_UI,
 } from "../types";
 import axios from "axios";
 
@@ -58,11 +60,26 @@ export const postPost = (post) => {
     dispatch({ type: LOADING_UI });
     try {
       const postRawData = await axios.post("/scream", post);
-      dispatch({ type: SET_POST, payload: postRawData.data.data});
+      dispatch({ type: POST_POST, payload: postRawData.data.data });
       dispatch({ type: CLEAR_ERRORS });
     } catch (err) {
       dispatch({ type: SET_ERRORS });
       console.error(err);
+    }
+  };
+};
+
+// When getting one post details
+export const getAPost = (postId) => {
+  return async (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    try {
+      const postData = await axios.get(`/scream/${postId}`);
+      dispatch({ type: GET_ONE_POST, payload: postData.data });
+      dispatch({ type: STOP_LOADING_UI });
+    } catch (err) {
+      console.error(err, "inside getAPost @ dataActions");
+      dispatch({ type: STOP_LOADING_UI });
     }
   };
 };
