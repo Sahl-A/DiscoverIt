@@ -15,24 +15,21 @@ import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import ChatIcon from "@material-ui/icons/Chat";
 // Redux
 import { connect } from "react-redux";
-import { getAPost } from "../redux/actions/dataActions";
+import { getAPost } from "../../redux/actions/dataActions";
 // Components
 import LikeButton from "./LikeButton";
+import Comments from "./Comments";
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   profileImage: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: "50%",
     objectFit: "cover",
   },
   dialogContent: {
     padding: 20,
-  },
-  invisibleSeparator: {
-    border: "none",
-    margin: 4,
   },
   closeButton: {
     position: "absolute",
@@ -55,7 +52,6 @@ export const PostDialog = (props) => {
     UI: { loading },
     post: {
       createdAt,
-      _id,
       userImage,
       userHandle,
       body,
@@ -86,7 +82,7 @@ export const PostDialog = (props) => {
       <CircularProgress size={200} thickness={2} />
     </div>
   ) : (
-    <Grid container spacing={10}>
+    <Grid container>
       <Grid item sm={5}>
         <img src={userImage} alt="Profile" className={classes.profileImage} />
       </Grid>
@@ -113,6 +109,8 @@ export const PostDialog = (props) => {
         </Tooltip>
         <span>{commentCount} Comments</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <Comments comments={comments} />
     </Grid>
   );
 

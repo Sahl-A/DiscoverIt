@@ -9,7 +9,7 @@ import StarEmptyIcon from "@material-ui/icons/StarOutline";
 
 // Redux
 import { connect } from "react-redux";
-import { likeUnlike } from "../redux/actions/dataActions";
+import { likeUnlike } from "../../redux/actions/dataActions";
 
 const mapStateToProps = (state) => ({
   posts: state.data.posts,

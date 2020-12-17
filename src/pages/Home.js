@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import Post from "../components/Post";
-import Profile from '../components/Profile'
+import Post from "../components/post/Post";
+import Profile from '../components/profile/Profile'
 
 //MUI
 import Grid from "@material-ui/core/Grid";

@@ -39,7 +39,7 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           posts: [...newPosts],
-          post: action.payload,
+          post: { ...state.post, likeCount: action.payload.likeCount },
         };
       }
       return {

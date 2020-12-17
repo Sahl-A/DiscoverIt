@@ -23,7 +23,7 @@ import Login from "./pages/Login";
 import signup from "./pages/signup";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 
 // HOC
 import AuthRoute from "./utils/authRoute";
