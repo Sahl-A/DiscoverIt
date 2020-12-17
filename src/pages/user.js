@@ -15,6 +15,7 @@ export const User = (props) => {
   const {
     match,
     data: { posts, loading },
+    getUserData,
   } = props;
   ///// HOOOOKS /////
   ///// useState
@@ -35,12 +36,12 @@ export const User = (props) => {
         setProfile(res.data.user);
       })
       .catch((err) => console.log(err));
-  }, [match.params.handle]);
+  }, [match.params.handle, getUserData]);
 
   const postsMarkup = loading ? (
     // <ScreamSkeleton />
     <p>Loading data....</p>
-  ) : posts === null ? (
+  ) : !posts ? (
     <p>No posts from this user</p>
   ) : (
     posts.map((post) => <Post key={post._id} post={post} />)
@@ -54,7 +55,7 @@ export const User = (props) => {
       <Grid item sm={4} xs={12}>
         {profile === null ? (
           // <ProfileSkeleton />
-          <p>Loading...</p>
+          <p>Loadingsss...</p>
         ) : (
           <StaticProfile profile={profile} />
         )}

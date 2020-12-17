@@ -70,7 +70,7 @@ export default connect(mapStateToProps)(function Post(props) {
         {credentials.handle === userHandle ? <DeletePost postId={_id} /> : null}
         <Typography
           component={Link}
-          to={`/users/${userHandle.replace(/ /g, "-")}`}
+          to={`/users/${userHandle}`}
           gutterBottom
           variant="h5"
         >

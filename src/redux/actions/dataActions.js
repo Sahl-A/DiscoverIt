@@ -101,11 +101,11 @@ export const addComment = (postId, comment) => {
 };
 
 // When directing to user page
-export const getUserData = (userHandle) => (dispatch) => {
+export const getUserData = (userHandle) => async (dispatch) => {
   dispatch({ type: LOADING_DATA });
   try {
-    const userRawData = axios.get(`/user/${userHandle}`);
-    dispatch({ type: GET_ALL_POSTS, payload: userRawData.data.screams });
+    const userRawData = await axios.get(`/user/${userHandle}`);
+    dispatch({ type: GET_ALL_POSTS, payload: userRawData.data?.screams });
   } catch (err) {
     console.error(err, "inside getUserData in dataActions");
     dispatch({
