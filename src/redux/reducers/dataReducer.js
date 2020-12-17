@@ -6,6 +6,7 @@ import {
   DELETE_POST,
   POST_POST,
   GET_ONE_POST,
+  ADD_COMMENT,
 } from "../types";
 
 const initialState = {
@@ -69,6 +70,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         post: action.payload,
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [action.payload, ...state.post.comments],
+        },
       };
     default:
       return state;

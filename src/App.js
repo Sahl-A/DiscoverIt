@@ -21,6 +21,7 @@ import { SET_UNAUTHENTICATED, SET_AUTHENTICATED } from "./redux/types";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import signup from "./pages/signup";
+import user from './pages/user';
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -57,6 +58,7 @@ function App() {
               <Route exact path="/" component={Home} />
               <AuthRoute exact path="/login" component={Login} />
               <AuthRoute exact path="/signup" component={signup} />
+              <Route exact path="/users/:handle" component={user} />
             </Switch>
           </Container>
         </Router>

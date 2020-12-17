@@ -19,6 +19,7 @@ import { getAPost } from "../../redux/actions/dataActions";
 // Components
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
@@ -110,6 +111,7 @@ export const PostDialog = (props) => {
         <span>{commentCount} Comments</span>
       </Grid>
       <hr className={classes.visibleSeparator} />
+      <CommentForm postId={postId} />
       <Comments comments={comments} />
     </Grid>
   );

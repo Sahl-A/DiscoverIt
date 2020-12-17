@@ -10,6 +10,7 @@ import {
   CLEAR_ERRORS,
   SET_ERRORS,
   STOP_LOADING_UI,
+  ADD_COMMENT,
 } from "../types";
 import axios from "axios";
 
@@ -82,4 +83,34 @@ export const getAPost = (postId) => {
       dispatch({ type: STOP_LOADING_UI });
     }
   };
+};
+
+// Add comment
+export const addComment = (postId, comment) => {
+  return async (disptach) => {
+    try {
+      const addCommentResonse = await axios.post(
+        `/scream/${postId}/comment`,
+        comment
+      );
+      disptach({ type: ADD_COMMENT, payload: addCommentResonse.data });
+    } catch (err) {
+      console.error(err, "inside addComment in dataActions");
+    }
+  };
+};
+
+// When directing to user page
+export const getUserData = (userHandle) => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
+  try {
+    const userRawData = axios.get(`/user/${userHandle}`);
+    dispatch({ type: GET_ALL_POSTS, payload: userRawData.data.screams });
+  } catch (err) {
+    console.error(err, "inside getUserData in dataActions");
+    dispatch({
+      type: GET_ALL_POSTS,
+      payload: null,
+    });
+  }
 };

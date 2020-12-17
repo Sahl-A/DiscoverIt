@@ -11,6 +11,7 @@ export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const POST_POST = "POST_POST";
 export const DELETE_POST = "DELETE_POST";
 export const GET_ONE_POST = "GET_ONE_POST";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 
 // ui types
