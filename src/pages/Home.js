@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import Post from "../components/post/Post";
 import Profile from '../components/profile/Profile'
+import PostSkeleton from '../utils/PostSkeleton'
 
 //MUI
 import Grid from "@material-ui/core/Grid";
@@ -33,7 +34,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Home(props)
   const postsMarkup = posts[0] ? (
     posts.map((post) => <Post key={post._id} post={post} />)
   ) : (
-    <p>Loading.....</p>
+    <PostSkeleton />
   );
 
   return (

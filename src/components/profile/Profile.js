@@ -22,6 +22,9 @@ import { connect } from "react-redux";
 import { uploadProfilePic, logoutUser } from "../../redux/actions/userActions";
 import EditDetails from "./EditDetails";
 
+// Components
+import ProfileSkeleton from "../../utils/ProfileSkeleton";
+
 const useStyles = makeStyles((theme) => {
   return {
     paper: {
@@ -157,7 +160,7 @@ export default connect(
           >
             <Grid item>
               <MuiLink
-                style={{textAlign: "center"}}
+                style={{ textAlign: "center" }}
                 component={Link}
                 to={`/users/${handle}`}
                 color="primary"
@@ -168,7 +171,11 @@ export default connect(
               <hr />
             </Grid>
             <Grid item>
-              {bio && <Typography variant="body2" align='center'>{bio}</Typography>}
+              {bio && (
+                <Typography variant="body2" align="center">
+                  {bio}
+                </Typography>
+              )}
               <hr />
             </Grid>
             <Grid item>
@@ -233,7 +240,7 @@ export default connect(
       </Paper>
     )
   ) : (
-    <p>Loading...</p>
+    <ProfileSkeleton />
   );
   return profileMarkup;
 });
