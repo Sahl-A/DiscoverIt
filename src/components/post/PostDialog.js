@@ -24,17 +24,27 @@ import CommentForm from "./CommentForm";
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   profileImage: {
-    width: 120,
+    minwidth: 120,
     height: 120,
     borderRadius: "50%",
     objectFit: "cover",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: 70,
+      height: 70,
+    },
+    [theme.breakpoints.down("xs")]: {
+      minWidth: 50,
+      height: 50,
+    },
   },
+
   dialogContent: {
     padding: 20,
   },
   closeButton: {
     position: "absolute",
     left: "90%",
+    color: theme.palette.text.secondary,
   },
   expandButton: {
     position: "absolute",
@@ -84,10 +94,10 @@ export const PostDialog = (props) => {
     </div>
   ) : (
     <Grid container>
-      <Grid item sm={5}>
+      <Grid item sm={3}>
         <img src={userImage} alt="Profile" className={classes.profileImage} />
       </Grid>
-      <Grid item sm={7}>
+      <Grid item sm={9}>
         <Typography
           component={Link}
           color="primary"
@@ -96,8 +106,7 @@ export const PostDialog = (props) => {
         >
           @{userHandle}
         </Typography>
-        <hr className={classes.invisibleSeparator} />
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="caption" color="textSecondary">
           {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
         </Typography>
         <hr className={classes.invisibleSeparator} />
@@ -120,12 +129,13 @@ export const PostDialog = (props) => {
     <>
       {/* Expand button */}
       <Tooltip
+        arrow
         title="See the full post"
         placement="bottom"
         onClick={handleOpenDialog}
       >
         <IconButton>
-          <UnfoldMore />
+          <UnfoldMore color={"primary"} />
         </IconButton>
       </Tooltip>
       <Dialog

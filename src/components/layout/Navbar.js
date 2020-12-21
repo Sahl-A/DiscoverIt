@@ -22,7 +22,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(function Navbar(props) {
   const { authenticated } = props;
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" >
       <Grid container justify="center">
         <Toolbar>
           {authenticated ? (

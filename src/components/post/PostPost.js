@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { postPost } from "../../redux/actions/dataActions";
 // MUI
 import { makeStyles } from "@material-ui/core/styles";
+import useTheme from "@material-ui/core/styles/useTheme";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -17,6 +18,9 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
+  postDialog: {
+    backgroundColor: theme.palette.text.secondary,
+  },
   submitButton: {
     position: "relative",
     float: "right",
@@ -34,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const PostPost = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const {
     postPost,
     UI: { loading },
@@ -90,11 +95,13 @@ export const PostPost = (props) => {
           className={classes.closeButton}
         >
           <IconButton>
-            <CloseIcon />
+            <CloseIcon color={theme.palette.text.secondary} />
           </IconButton>
         </Tooltip>
-        <DialogTitle>Share a new post</DialogTitle>
-        <DialogContent>
+        <DialogTitle className={classes.postDialog}>
+          Share a new post
+        </DialogTitle>
+        <DialogContent className={classes.postDialog}>
           <form onSubmit={handlePostSubmit}>
             <TextField
               name="body"

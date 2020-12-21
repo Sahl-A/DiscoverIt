@@ -53,7 +53,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Navbar />
-          <Container style={{ marginTop: "2rem" }}>
+          <Container className='appContainer'>
             <Switch>
               <Route exact path="/" component={Home} />
               <AuthRoute exact path="/login" component={Login} />
