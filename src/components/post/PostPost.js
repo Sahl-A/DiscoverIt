@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   closeButton: {
     position: "absolute",
-    left: "91%",
+    left: "85%",
     top: "6%",
   },
 }));

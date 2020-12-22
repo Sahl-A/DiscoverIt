@@ -4,12 +4,12 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
 
 const ScreamSkeleton = () => {
-  const content = Array.from({ length: 5 }).map((item, index) => (
-    <Grid container spacing="2" style={{ marginBottom: "1rem" }} key={index}>
+  const content = Array.from({ length: 5 }).map((_, index) => (
+    <Grid container spacing={2} style={{ marginBottom: "1rem" }} key={index}>
       <Grid item>
         <Skeleton variant="circle" width={70} height={70} />
       </Grid>
-      <Grid item>
+      <Grid item container>
         <Grid container>
           <Skeleton variant="text" width={60} height={25} />
           <Skeleton
@@ -21,7 +21,6 @@ const ScreamSkeleton = () => {
         </Grid>
         <Grid item>
           <Skeleton variant="rect" width={400} height={90} />
-          {/* <Skeleton variant="rect" width={300} height={30} /> */}
         </Grid>
       </Grid>
     </Grid>

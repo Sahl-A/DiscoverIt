@@ -6,10 +6,22 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import StarIcon from "@material-ui/icons/Star";
 import StarEmptyIcon from "@material-ui/icons/StarOutline";
+import Typography from "@material-ui/core/Typography";
+import makeStyles from '@material-ui/core/styles/makeStyles'
+// import useTheme from "@material-ui/core/styles/useTheme";
+// import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 // Redux
 import { connect } from "react-redux";
 import { likeUnlike } from "../../redux/actions/dataActions";
+
+const useStyles = makeStyles(theme => ({
+  likesText: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '.8rem'
+    }
+  }
+}))
 
 const mapStateToProps = (state) => ({
   posts: state.data.posts,
@@ -33,6 +45,9 @@ export default connect(
 
   /////// STATE ///////
   /////////////////////
+  // const theme = useTheme();
+  // const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const classes = useStyles();
   /////// useState
   // The below state to change the likes count immedietly in the UI.
   // In background, we send our http request to modify the DB
@@ -100,7 +115,7 @@ export default connect(
   return (
     <>
       {likeButton}
-      <span>{likesCountUI} Likes</span>
+      <Typography display='inline' className={classes.likesText}>{likesCountUI} Likes</Typography>
     </>
   );
 });

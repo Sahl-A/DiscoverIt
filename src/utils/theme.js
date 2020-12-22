@@ -14,14 +14,14 @@ export default createMuiTheme({
       dark: "#ff7961",
       contrastText: "#000",
     },
-    text:{
-      primary: '#dcddde',
-      secondary:'#72767d'
+    text: {
+      primary: "#dcddde",
+      secondary: "#72767d",
     },
     background: {
-      paper: '#36393F',
-      default: '#36393F',
-    }
+      paper: "#36393F",
+      default: "#36393F",
+    },
   },
   spreadIt: {
     loginContainer: { maxWidth: 400, margin: "auto", textAlign: "center" },
@@ -42,15 +42,15 @@ export default createMuiTheme({
     MuiAppBar: {
       colorPrimary: {
         // backgroundColor: '#7289DA'
-      }
+      },
     },
     MuiIconButton: {
       root: {
-        padding: '8px',
-        '&:hover': {
-          backgroundColor: '#202225'
-        }
-      }
-    }
-  }
+        padding: "8px",
+        "&:hover": {
+          backgroundColor: "#202225",
+        },
+      },
+    },
+  },
 });

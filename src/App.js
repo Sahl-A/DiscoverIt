@@ -21,7 +21,7 @@ import { SET_UNAUTHENTICATED, SET_AUTHENTICATED } from "./redux/types";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import signup from "./pages/signup";
-import user from './pages/user';
+import user from "./pages/user";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -42,7 +42,8 @@ if (token) {
     store.dispatch(logoutUser());
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common["Authorization"] = localStorage.DiscoverItToken;
+    axios.defaults.headers.common["Authorization"] =
+      localStorage.DiscoverItToken;
     store.dispatch(getUserData());
   }
 }
@@ -53,7 +54,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Navbar />
-          <Container className='appContainer'>
+          <Container className="appContainer">
             <Switch>
               <Route exact path="/" component={Home} />
               <AuthRoute exact path="/login" component={Login} />

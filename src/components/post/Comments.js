@@ -11,9 +11,17 @@ const useStyles = makeStyles((theme) => ({
   commentImage: {
     maxWidth: "100%",
     height: 70,
-    width: 70,
+    minWidth: 70,
     objectFit: "cover",
     borderRadius: "50%",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: 50,
+      height: 50,
+    },
+    [theme.breakpoints.down("xs")]: {
+      minWidth: 40,
+      height: 40,
+    },
   },
   commentData: {
     marginLeft: 20,
@@ -29,16 +37,16 @@ export default function Comments(props) {
         const { body, createdAt, userImage, userHandle } = comment;
         return (
           <Fragment key={createdAt}>
-            <Grid item sm={12}>
+            <Grid item xs={12}>
               <Grid container>
-                <Grid item sm={2} style={{marginRight: '-1rem'}}>
+                <Grid item xs={2} style={{ marginRight: "-1rem" }}>
                   <img
                     src={userImage}
                     alt="comment"
                     className={classes.commentImage}
                   />
                 </Grid>
-                <Grid item sm={10}>
+                <Grid item xs={10}>
                   <div className={classes.commentData}>
                     <Typography
                       variant="h5"
@@ -56,7 +64,7 @@ export default function Comments(props) {
                       {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                     </Typography>
                     <hr className={classes.invisibleSeparator} />
-                    
+
                     <Typography variabnt="body1">{body}</Typography>
                   </div>
                 </Grid>

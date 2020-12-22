@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     marginTop: "-.8rem",
     [theme.breakpoints.down("xs")]: {
-      padding: '20px 10px 20px 10px'
+      padding: "20px 10px 20px 10px",
     },
   },
   image: {
@@ -56,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
       let scroll;
       scroll = props.post.body.split(" ").length > 20 ? "scroll" : "none";
       return scroll;
+    },
+  },
+  commentsCount: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: ".8rem",
     },
   },
 }));
@@ -85,7 +90,7 @@ export default connect(mapStateToProps)(function Post(props) {
 
   /////// Hooks ///////
   // const theme = useTheme();
-  // const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  // const matchesSM = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <Card className={classes.card}>
@@ -126,7 +131,9 @@ export default connect(mapStateToProps)(function Post(props) {
             <ChatIcon color="primary" />
           </IconButton>
         </Tooltip>
-        <span>{commentCount} Comments </span>
+        <Typography display="inline" className={classes.commentsCount}>
+          {commentCount} Comments{" "}
+        </Typography>
         <PostDialog postId={_id} />
       </CardContent>
     </Card>

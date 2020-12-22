@@ -40,11 +40,11 @@ export default connect(
   );
 
   return (
-    <Grid container spacing={8}>
-      <Grid item sm={6} md={8} xs={12}>
+    <Grid container spacing={6}>
+      <Grid item sm={7} md={8} xs={12}>
         {postsMarkup}
       </Grid>
-      <Grid item sm={6} md={4} xs={12}>
+      <Grid item sm={5} md={4} xs={12}>
         <Profile />
       </Grid>
     </Grid>

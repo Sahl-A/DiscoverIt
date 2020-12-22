@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   closeButton: {
     position: "absolute",
-    left: "90%",
+    left: "85%",
     color: theme.palette.text.secondary,
   },
   expandButton: {
@@ -55,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 50,
     marginBottom: 50,
   },
+  commentsCount: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '.8rem'
+    }
+  }
 }));
 
 export const PostDialog = (props) => {
@@ -117,7 +122,7 @@ export const PostDialog = (props) => {
             <ChatIcon color="primary" />
           </IconButton>
         </Tooltip>
-        <span>{commentCount} Comments</span>
+        <Typography display='inline' className={classes.commentsCount}>{commentCount} Comments</Typography>
       </Grid>
       <hr className={classes.visibleSeparator} />
       <CommentForm postId={postId} />
