@@ -69,7 +69,8 @@ export const logoutUser = () => {
     localStorage.removeItem("DiscoverItToken");
     delete axios.defaults.headers.common["Authorization"];
     dispatch({ type: SET_UNAUTHENTICATED });
-    window.location.href = "/login"
+    const host = window.location.origin
+    window.location.href = `${host}/login`
   };
 };
 
