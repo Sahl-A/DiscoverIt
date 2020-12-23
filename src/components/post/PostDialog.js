@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import ChatIcon from "@material-ui/icons/Chat";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 // Redux
 import { connect } from "react-redux";
 import { getAPost } from "../../redux/actions/dataActions";
@@ -24,16 +26,16 @@ import CommentForm from "./CommentForm";
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   profileImage: {
-    minwidth: 120,
+    width: 120,
     height: 120,
     borderRadius: "50%",
     objectFit: "cover",
     [theme.breakpoints.down("sm")]: {
-      minWidth: 70,
-      height: 70,
+      width: 90,
+      height: 90,
     },
     [theme.breakpoints.down("xs")]: {
-      minWidth: 50,
+      width: 50,
       height: 50,
     },
   },
@@ -56,10 +58,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 50,
   },
   commentsCount: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '.8rem'
-    }
-  }
+    [theme.breakpoints.down("sm")]: {
+      fontSize: ".8rem",
+    },
+  },
 }));
 
 export const PostDialog = (props) => {
@@ -80,6 +82,8 @@ export const PostDialog = (props) => {
   } = props;
 
   //////// Hooooks ////////
+  const theme = useTheme();
+  const belowXS = useMediaQuery(theme.breakpoints.down("xs"));
   //////// useState
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -99,10 +103,10 @@ export const PostDialog = (props) => {
     </div>
   ) : (
     <Grid container>
-      <Grid item sm={3}>
+      <Grid item xs={3} sm={3}>
         <img src={userImage} alt="Profile" className={classes.profileImage} />
       </Grid>
-      <Grid item sm={9}>
+      <Grid item xs={9} sm={9}>
         <Typography
           component={Link}
           color="primary"
@@ -111,19 +115,43 @@ export const PostDialog = (props) => {
         >
           @{userHandle}
         </Typography>
-        <Typography variant="caption" color="textSecondary">
+        <Typography display="block" variant="caption" color="textSecondary">
           {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
         </Typography>
         <hr className={classes.invisibleSeparator} />
-        <Typography variant="body1">{body}</Typography>
-        <LikeButton postId={postId} likeCount={likeCount} />
-        <Tooltip title="comments" placement="bottom">
-          <IconButton>
-            <ChatIcon color="primary" />
-          </IconButton>
-        </Tooltip>
-        <Typography display='inline' className={classes.commentsCount}>{commentCount} Comments</Typography>
+        {!belowXS ? (
+          <>
+            <Typography variant="body1">{body}</Typography>
+            <LikeButton postId={postId} likeCount={likeCount} />
+            <Tooltip title="comments" placement="bottom">
+              <IconButton>
+                <ChatIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+            <Typography display="inline" className={classes.commentsCount}>
+              {commentCount} Comments
+            </Typography>
+          </>
+        ) : null}
       </Grid>
+      {belowXS ? (
+        <Grid container direction='column'>
+          <Grid item style={{marginTop: '1rem'}} >
+            <Typography variant="body1">{body}</Typography>
+          </Grid>
+          <Grid item>
+            <LikeButton postId={postId} likeCount={likeCount} />
+            <Tooltip title="comments" placement="bottom">
+              <IconButton>
+                <ChatIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+            <Typography display="inline" className={classes.commentsCount}>
+              {commentCount} Comments
+            </Typography>
+          </Grid>
+        </Grid>
+      ) : null}
       <hr className={classes.visibleSeparator} />
       <CommentForm postId={postId} />
       <Comments comments={comments} />

@@ -29,7 +29,7 @@ import Navbar from "./components/layout/Navbar";
 // HOC
 import AuthRoute from "./utils/authRoute";
 
-axios.defaults.baseURL = "http://localhost:8080/api";
+axios.defaults.baseURL = "https://discoverit-backend.herokuapp.com/api";
 
 // Get the token from localStorage, decode it
 // compare it with time now to know its expiration

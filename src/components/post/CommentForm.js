@@ -36,7 +36,7 @@ export const CommentForm = (props) => {
   /////// Markup ///////
   //////////////////////
   const commentFormMarkup = authenticated ? (
-    <Grid item sm={12} style={{ textAlign: "center" }}>
+    <Grid item xs={12} style={{ textAlign: "center" }}>
       <form onSubmit={handleSubmit}>
         <TextField
           name="body"
