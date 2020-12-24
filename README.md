@@ -1,4 +1,4 @@
-# ![](https://res.cloudinary.com/sahlkhalifa/image/upload/v1608668304/favicon_vrzrjw.png)DiscoverIt
+# ![](https://res.cloudinary.com/sahlkhalifa/image/upload/v1608668304/DiscoverIt/DiscoverIt%20favicon.png)DiscoverIt
 
 Simple Social media application to have people around you. You can do the following while your are using our app:
 - Check other users profiles
