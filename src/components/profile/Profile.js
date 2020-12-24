@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {useHistory } from 'react-router-dom'
 import dayJs from "dayjs";
 
 // MUI stuff
@@ -103,7 +104,7 @@ export default connect(
   } = props;
 
   ///////// Hooooooooooooooooks /////////
-
+  let history = useHistory();
   ///////// Functions /////////
   // When changing the image using the input tag
   const handleImageChange = (e) => {
@@ -124,7 +125,7 @@ export default connect(
 
   // Logout
   const handleLogout = () => {
-    logoutUser();
+    logoutUser(history);
   };
 
   ///////// Markup /////////

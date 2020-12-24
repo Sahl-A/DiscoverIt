@@ -64,13 +64,12 @@ export const signup = (userData, history) => {
 };
 
 // Logout user
-export const logoutUser = () => {
+export const logoutUser = (history) => {
   return async (dispatch) => {
     localStorage.removeItem("DiscoverItToken");
     delete axios.defaults.headers.common["Authorization"];
     dispatch({ type: SET_UNAUTHENTICATED });
-    const host = window.location.origin
-    window.location.href = `${host}/login`
+    history.push('/login')
   };
 };
 
