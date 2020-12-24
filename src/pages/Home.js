@@ -6,6 +6,8 @@ import PostSkeleton from "../utils/PostSkeleton";
 
 //MUI
 import Grid from "@material-ui/core/Grid";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 // Redux
 import { connect } from "react-redux";
@@ -25,6 +27,8 @@ export default connect(
 )(function Home(props) {
   const { posts, getAllPosts } = props;
   ////////// Hoooooooooooooks //////////////
+  const theme = useTheme();
+  const belowXS = useMediaQuery(theme.breakpoints.down("xs"));
   ///////// useEffect
   useEffect(() => {
     (async () => {
@@ -40,7 +44,7 @@ export default connect(
   );
 
   return (
-    <Grid container spacing={6}>
+    <Grid container spacing={6} direction={!belowXS? 'row': 'column-reverse'}>
       <Grid item sm={7} md={8} xs={12}>
         {postsMarkup}
       </Grid>
